@@ -1,0 +1,11 @@
+vocab_size: 8000
+
+context_length: 256
+
+n_layers: 8
+
+n_heads: 8
+
+hidden_dim: 512
+
+dropout: 0.1

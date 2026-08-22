@@ -1,0 +1,17 @@
+# checkpoints
+checkpoints/
+checkpoints_v03/
+*.pt
+
+# dataset
+data/
+
+# python cache
+__pycache__/
+*.pyc
+
+# virtual environment
+.venv/
+
+# temporary files
+New-Item
