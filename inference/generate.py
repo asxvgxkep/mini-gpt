@@ -1,5 +1,7 @@
-import torch
+import argparse
 import sys
+
+import torch
 
 from model.config import GPTConfig
 from model.gpt import GPT
@@ -100,11 +102,35 @@ def generate(
 
 
 
-prompt = (
-    sys.argv[1]
-    if len(sys.argv) > 1
-    else "Once upon a time"
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "prompt",
+    nargs="?",
+    default="Once upon a time"
 )
+
+parser.add_argument(
+    "--max_tokens",
+    type=int,
+    default=100
+)
+
+parser.add_argument(
+    "--temperature",
+    type=float,
+    default=0.8
+)
+
+parser.add_argument(
+    "--top_k",
+    type=int,
+    default=50
+)
+
+args = parser.parse_args()
+
+prompt = args.prompt
 
 
 tokens = tokenizer.encode(
@@ -115,9 +141,9 @@ tokens = tokenizer.encode(
 output = generate(
     model,
     tokens,
-    max_new_tokens=100,
-    temperature=0.8,
-    top_k=50
+    max_new_tokens=args.max_tokens,
+    temperature=args.temperature,
+    top_k=args.top_k
 )
 
 
