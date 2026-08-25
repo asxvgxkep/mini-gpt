@@ -7,7 +7,8 @@ from tokenizer.sentencepiece_tokenizer import SentencePieceTokenizer
 
 
 checkpoint = torch.load(
-    "checkpoints_v03/checkpoint_epoch_20.pt"
+    "mini_gpt.pt",
+    map_location=torch.device("cpu")
 )
 
 

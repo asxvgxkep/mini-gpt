@@ -92,7 +92,7 @@ loader = DataLoader(
 # =========================
 
 config = load_config(
-    "configs/tiny.yaml"
+    "configs/v4.yaml"
 )
 
 
