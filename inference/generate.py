@@ -1,4 +1,5 @@
 import torch
+import sys
 
 from model.config import GPTConfig
 from model.gpt import GPT
@@ -98,7 +99,12 @@ def generate(
 
 
 
-prompt = "Once upon a time"
+
+prompt = (
+    sys.argv[1]
+    if len(sys.argv) > 1
+    else "Once upon a time"
+)
 
 
 tokens = tokenizer.encode(
