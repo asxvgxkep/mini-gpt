@@ -1,3 +1,4 @@
+import os
 import yaml
 
 import torch
@@ -129,6 +130,8 @@ loss_fn = torch.nn.CrossEntropyLoss()
 # 4. Training
 # =========================
 
+os.makedirs("logs", exist_ok=True)
+
 for epoch in range(20):
 
     total_loss = 0
@@ -166,9 +169,20 @@ for epoch in range(20):
 
 
 
+    avg_loss = total_loss / steps
+
     print(
-        f"epoch {epoch+1}, loss={total_loss / steps:.4f}"
+        f"epoch {epoch+1}, loss={avg_loss:.4f}"
     )
+
+    with open(
+        "logs/train.log",
+        "a",
+        encoding="utf-8"
+    ) as f:
+        f.write(
+            f"epoch={epoch+1}, loss={avg_loss:.4f}\n"
+        )
 
 torch.save(
     {
