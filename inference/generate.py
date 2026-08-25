@@ -37,7 +37,9 @@ tokenizer = SentencePieceTokenizer(
 def generate(
     model,
     tokens,
-    max_new_tokens=100
+    max_new_tokens=100,
+    temperature=0.8,
+    top_k=50
 ):
 
     tokens = torch.tensor(
@@ -53,12 +55,10 @@ def generate(
         last_logits = logits[:, -1, :]
 
 
-        temperature = 0.8
 
         logits = last_logits / temperature
 
 
-        top_k = 50
 
         values, indices = torch.topk(
             logits,
@@ -114,7 +114,10 @@ tokens = tokenizer.encode(
 
 output = generate(
     model,
-    tokens
+    tokens,
+    max_new_tokens=100,
+    temperature=0.8,
+    top_k=50
 )
 
 
