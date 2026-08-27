@@ -16,3 +16,6 @@ __pycache__/
 # temporary files
 New-Item
 *.zip
+
+# runtime logs
+logs/*.out

@@ -1,0 +1,15 @@
+epoch=1, train_loss=1.9101, val_loss=1.5588
+epoch=2, train_loss=1.5823, val_loss=1.4627
+epoch=3, train_loss=1.5094, val_loss=1.4134
+epoch=4, train_loss=1.4697, val_loss=1.3857
+epoch=5, train_loss=1.4438, val_loss=1.3687
+epoch=6, train_loss=1.4254, val_loss=1.3527
+epoch=7, train_loss=1.4115, val_loss=1.3426
+epoch=8, train_loss=1.4007, val_loss=1.3362
+epoch=9, train_loss=1.3919, val_loss=1.3315
+epoch=10, train_loss=1.3846, val_loss=1.3232
+epoch=11, train_loss=1.3272, val_loss=1.2772
+epoch=12, train_loss=1.3130, val_loss=1.2717
+epoch=13, train_loss=1.3070, val_loss=1.2681
+epoch=14, train_loss=1.3031, val_loss=1.2670
+epoch=15, train_loss=1.3002, val_loss=1.2654

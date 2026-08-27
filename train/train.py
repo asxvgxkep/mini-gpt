@@ -60,7 +60,21 @@ print(
 )
 
 
-tokens = tokenizer.encode(text)
+tokens = []
+
+chunk_size = 10_000_000
+
+for i in range(0, len(text), chunk_size):
+
+    chunk = text[i:i+chunk_size]
+
+    tokens.extend(
+        tokenizer.encode(chunk)
+    )
+
+    print(
+        f"encoded {i}/{len(text)}"
+    )
 
 
 print(
