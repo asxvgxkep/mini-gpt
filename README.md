@@ -97,6 +97,16 @@ Once upon a time, there was a little girl named Lily. She loved to play outside 
 pip install -r requirements.txt
 ```
 
+## Run Tests
+
+Install the development dependencies, then run the complete pytest suite from
+the repository root:
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest
+```
+
 ## Run Training
 
 Start a fresh training run:
@@ -121,7 +131,11 @@ python -m train.train \
 
 `--epochs` specifies the total target epoch count rather than the number of additional epochs.
 
-New checkpoints store both model and optimizer state, so future resumed runs can continue with the optimizer state restored. Use `--lr` while resuming if you want to override the restored learning rate.
+The rolling `checkpoints_full/latest.pt` checkpoint and the best checkpoint store
+both model and optimizer state, so future resumed runs can restore the optimizer.
+Use `--lr` while resuming to override its restored learning rate. The terminal
+`mini_gpt_full.pt` export contains model state and metadata but no optimizer
+state; resuming from that file starts with a newly initialized optimizer.
 
 ## Run Inference
 
@@ -151,13 +165,14 @@ python -m inference.generate "Once upon a time" \
 
 ```text
 mini-gpt/
+├── configs/        # Model configurations
+├── experiments/    # Experiment records and plots
+├── inference/      # Autoregressive text generation
+├── logs/           # Final training metrics
 ├── model/          # GPT model implementation
-├── train/          # training and validation pipeline
-├── tokenizer/      # SentencePiece tokenizer
-├── inference/      # autoregressive text generation
-├── configs/        # model configurations
-├── experiments/    # experiment records and plots
-└── logs/           # final training metrics
+├── tokenizer/      # Character and SentencePiece tokenizers
+├── train/          # Training, validation, and dataset code
+└── test_*.py       # Pytest test suite
 ```
 
 ## Model Weights

@@ -1,6 +1,7 @@
 # checkpoints
 checkpoints/
 checkpoints_v03/
+checkpoints_full/
 *.pt
 
 # dataset
@@ -9,13 +10,15 @@ data/
 # python cache
 __pycache__/
 *.pyc
+.pytest_cache/
+.ruff_cache/
 
 # virtual environment
 .venv/
 
 # temporary files
-New-Item
 *.zip
 
 # runtime logs
 logs/*.out
+logs/train.log

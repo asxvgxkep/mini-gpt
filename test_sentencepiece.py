@@ -1,23 +1,30 @@
+from pathlib import Path
+
 from tokenizer.sentencepiece_tokenizer import SentencePieceTokenizer
 
 
-tokenizer = SentencePieceTokenizer(
-    "tokenizer/mini.model"
-)
+TOKENIZER_PATH = Path(__file__).parent / "tokenizer" / "mini.model"
 
 
-text = "hello mini gpt"
+def test_sentencepiece_tokenizer_round_trip():
+    tokenizer = SentencePieceTokenizer(str(TOKENIZER_PATH))
+    text = "hello mini gpt"
+
+    tokens = tokenizer.encode(text)
+
+    assert tokenizer.decode(tokens) == text
 
 
-tokens = tokenizer.encode(text)
+def test_sentencepiece_tokenizer_vocab_size():
+    tokenizer = SentencePieceTokenizer(str(TOKENIZER_PATH))
+
+    assert tokenizer.vocab_size == 100
 
 
-print(tokens)
+def test_sentencepiece_tokenizer_returns_token_ids():
+    tokenizer = SentencePieceTokenizer(str(TOKENIZER_PATH))
 
-print(
-    tokenizer.decode(tokens)
-)
+    tokens = tokenizer.encode("hello mini gpt")
 
-print(
-    tokenizer.vocab_size
-)
+    assert tokens
+    assert all(isinstance(token, int) for token in tokens)

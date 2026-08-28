@@ -1,23 +1,47 @@
+from pathlib import Path
+
 from tokenizer.sentencepiece_tokenizer import SentencePieceTokenizer
 
 
-tokenizer = SentencePieceTokenizer(
-    "tokenizer/tiny.model"
-)
+TOKENIZER_PATH = Path(__file__).parent / "tokenizer" / "tiny.model"
 
 
-text = "Once upon a time there was a little girl"
+def test_tiny_tokenizer_vocab_size():
+    tokenizer = SentencePieceTokenizer(
+        str(TOKENIZER_PATH)
+    )
+
+    assert tokenizer.vocab_size == 8000
 
 
-tokens = tokenizer.encode(text)
+def test_tiny_tokenizer_round_trip():
+    tokenizer = SentencePieceTokenizer(
+        str(TOKENIZER_PATH)
+    )
+
+    text = (
+        "Once upon a time there was "
+        "a little girl named Lily."
+    )
+
+    tokens = tokenizer.encode(text)
+
+    decoded = tokenizer.decode(tokens)
+
+    assert decoded == text
 
 
-print(tokens)
+def test_tiny_tokenizer_returns_token_ids():
+    tokenizer = SentencePieceTokenizer(
+        str(TOKENIZER_PATH)
+    )
 
-print(
-    tokenizer.decode(tokens)
-)
+    tokens = tokenizer.encode(
+        "Once upon a time"
+    )
 
-print(
-    tokenizer.vocab_size
-)
+    assert tokens
+    assert all(
+        isinstance(token, int)
+        for token in tokens
+    )
