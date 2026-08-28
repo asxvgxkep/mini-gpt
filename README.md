@@ -1,81 +1,146 @@
 # MiniGPT
 
-A GPT-style decoder-only language model implemented from scratch with PyTorch.
+A decoder-only Transformer language model implemented from scratch with PyTorch and trained on the TinyStories dataset.
 
-This project builds a small language model from the ground up, including tokenizer, Transformer architecture, training pipeline, checkpoint saving, and inference.
+The project covers the complete language-model pipeline: SentencePiece tokenization, causal self-attention, Transformer blocks, training and validation, checkpointing, and autoregressive text generation.
 
 ## Features
 
-- Decoder-only Transformer architecture
-- Multi-head self-attention
-- SentencePiece tokenizer
-- PyTorch training pipeline
-- Epoch-level checkpoint saving
+- Decoder-only Transformer implemented from scratch
+- Multi-head causal self-attention
+- Pre-norm Transformer blocks
+- SentencePiece BPE tokenizer
+- Full TinyStories training pipeline
+- Train/validation loss tracking
+- Best-checkpoint selection by validation loss
+- Configurable checkpoint loading for inference
+- Temperature and top-k sampling
+- Automatic context-window truncation during generation
 - CPU inference support
 
 ## Model Configuration
 
-- Parameters: 97.54M
-- Layers: 12
-- Attention heads: 12
-- Hidden dimension: 768
-- Context length: 256
+| Component | Value |
+| --- | --- |
+| Parameters | 97.54M |
+| Layers | 12 |
+| Attention heads | 12 |
+| Hidden dimension | 768 |
+| Context length | 256 |
+| Vocabulary size | 8,000 |
+| Dropout | 0.1 |
 
 ## Dataset
 
-- Dataset: TinyStories
-- Token count: 23.6M
+The final model was trained on the full TinyStories training corpus.
 
-## Training Result
+The tokenized corpus was split into:
 
-Training environment:
+- 90% training tokens
+- 10% held-out validation tokens
 
-- GPU: NVIDIA RTX 4090D
-- Framework: PyTorch
-- Epochs: 20
+Large-corpus tokenization is performed in chunks to avoid SentencePiece failures on extremely large input strings.
 
-Final training loss:
+## Final Training Result
 
+Final training was performed on an NVIDIA RTX 4090 24GB GPU.
+
+The best checkpoint was reached at epoch 15:
+
+```text
+epoch=15, train_loss=1.3002, val_loss=1.2654
 ```
-epoch 20, loss=1.4606
+
+Validation loss improved throughout the run:
+
+```text
+epoch=1,  train_loss=1.9101, val_loss=1.5588
+epoch=5,  train_loss=1.4438, val_loss=1.3687
+epoch=10, train_loss=1.3846, val_loss=1.3232
+epoch=15, train_loss=1.3002, val_loss=1.2654
 ```
+
+The complete training history is available in:
+
+```text
+logs/train_full.log
+```
+
+### Training note
+
+Epochs 1-10 used AdamW with a learning rate of `3e-4`.
+
+Training was then continued from the epoch-10 model checkpoint for epochs 11-15. The optimizer state was reinitialized and the learning rate was reduced to `1e-4`, so epochs 11-15 should be considered a weight-resumed continuation rather than a strict full optimizer-state resume.
 
 ## Generation Example
 
 Prompt:
 
-```
+```text
 Once upon a time
 ```
 
-Output:
+Example output from the final model:
 
+```text
+Once upon a time, there was a little girl named Lily. She loved to play outside in the sunshine. One day, Lily's mommy told her to stay in the yard while she went inside to make some tea...
 ```
-Once upon a time, there was a little girl named Lily. She loved to play outside in her backyard. One day, she saw a mole digging holes in the ground...
-```
 
-## Run Inference
-
-Install dependencies:
+## Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Generate text:
+## Run Inference
+
+Default generation:
 
 ```bash
 python -m inference.generate
 ```
 
+Provide a prompt:
+
+```bash
+python -m inference.generate "Once upon a time"
+```
+
+Configure generation:
+
+```bash
+python -m inference.generate "Once upon a time" \
+    --checkpoint mini_gpt_best.pt \
+    --max_tokens 100 \
+    --temperature 0.8 \
+    --top_k 50
+```
+
 ## Project Structure
 
-```
+```text
 mini-gpt/
 ├── model/          # GPT model implementation
-├── train/          # training pipeline
+├── train/          # training and validation pipeline
 ├── tokenizer/      # SentencePiece tokenizer
-├── inference/      # text generation
+├── inference/      # autoregressive text generation
 ├── configs/        # model configurations
-└── mini_gpt.pt     # trained model weights
+├── experiments/    # experiment records and plots
+└── logs/           # final training metrics
+```
+
+## Model Weights
+
+Model checkpoint files (`*.pt`) are intentionally excluded from Git because of their size.
+
+Place the final checkpoint in the project root as:
+
+```text
+mini_gpt_best.pt
+```
+
+or specify another checkpoint with:
+
+```bash
+--checkpoint <path>
 ```
