@@ -66,6 +66,12 @@ The complete training history is available in:
 logs/train_full.log
 ```
 
+
+```markdown
+Training and validation loss:
+
+![MiniGPT full TinyStories training curve](experiments/full_loss_curve.png)
+
 ### Training note
 
 Epochs 1-10 used AdamW with a learning rate of `3e-4`.
