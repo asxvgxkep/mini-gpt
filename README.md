@@ -92,6 +92,32 @@ Once upon a time, there was a little girl named Lily. She loved to play outside 
 pip install -r requirements.txt
 ```
 
+## Run Training
+
+Start a fresh training run:
+
+```bash
+python -m train.train --epochs 10
+```
+
+Specify a learning rate:
+
+```bash
+python -m train.train --epochs 10 --lr 3e-4
+```
+
+Resume training from the latest checkpoint:
+
+```bash
+python -m train.train \
+    --resume checkpoints_full/latest.pt \
+    --epochs 15
+```
+
+`--epochs` specifies the total target epoch count rather than the number of additional epochs.
+
+New checkpoints store both model and optimizer state, so future resumed runs can continue with the optimizer state restored. Use `--lr` while resuming if you want to override the restored learning rate.
+
 ## Run Inference
 
 Default generation:
