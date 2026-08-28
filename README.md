@@ -67,7 +67,6 @@ logs/train_full.log
 ```
 
 
-```markdown
 Training and validation loss:
 
 ![MiniGPT full TinyStories training curve](experiments/full_loss_curve.png)
