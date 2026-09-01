@@ -77,6 +77,17 @@ Epochs 1-10 used AdamW with a learning rate of `3e-4`.
 
 Training was then continued from the epoch-10 model checkpoint for epochs 11-15. The optimizer state was reinitialized and the learning rate was reduced to `1e-4`, so epochs 11-15 should be considered a weight-resumed continuation rather than a strict full optimizer-state resume.
 
+## Training Evolution
+
+| Run | Parameters | Data | Validation | Recorded result |
+| --- | ---: | --- | --- | --- |
+| [v0.2](experiments/v02.md) | ~33.54M | Earlier subset; exact size unverified | No held-out result recorded | Final train loss 4.3568 |
+| [v0.3](experiments/v03.md) | 33.54M | 23,587,586 tokens from the first 100M TinyStories characters | Not used | Final train loss 1.6541 |
+| [v4 baseline](experiments/v4_baseline.md) | ~97.54M | 23,587,586 tokens from the first 100M TinyStories characters | Not used | Final train loss 1.4606 |
+| Final full-data run | 97.54M | Full TinyStories corpus; 90% train / 10% validation | 10% held out | Epoch 15: train 1.3002, validation 1.2654 |
+
+These stages changed multiple model, data, and training settings, so the later results should not be attributed to any single change. See the [experiment evolution index](experiments/README.md) for the training setups, complete historical loss records, and reconstruction note.
+
 ## Generation Example
 
 Prompt:
